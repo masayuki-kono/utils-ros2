@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 project(aws_ros2_common)
 
-add_compile_options(-std=c++14)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -19,7 +21,7 @@ add_library(${PROJECT_NAME} SHARED
     src/sdk_utils/ros2_node_parameter_reader.cpp
     src/sdk_utils/logging/aws_ros_logger.cpp)
 target_include_directories(${PROJECT_NAME} PRIVATE ${AWSSDK_INCLUDE_DIR})
-ament_target_dependencies(${PROJECT_NAME} aws_common)
+ament_target_dependencies(${PROJECT_NAME} rclcpp aws_common)
 
 install(TARGETS ${PROJECT_NAME}
     ARCHIVE DESTINATION lib

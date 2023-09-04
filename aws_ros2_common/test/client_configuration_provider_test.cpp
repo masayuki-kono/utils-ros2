@@ -30,20 +30,20 @@
 void initialize_node_and_config(const rclcpp::Node::SharedPtr& node, Aws::Client::ClientConfiguration &config)
 {
     rclcpp::Parameter region(CLIENT_CONFIG_PREFIX ".region", "uk-north-20");
-    node->declare_parameter(CLIENT_CONFIG_PREFIX ".region");
+    node->declare_parameter(CLIENT_CONFIG_PREFIX ".region", rclcpp::ParameterValue(""));
     config.region = "uk-north-20";
     rclcpp::Parameter proxyPort(CLIENT_CONFIG_PREFIX ".proxy_port", 787);
-    node->declare_parameter(CLIENT_CONFIG_PREFIX ".proxy_port");
+    node->declare_parameter(CLIENT_CONFIG_PREFIX ".proxy_port", rclcpp::ParameterValue(""));
     config.proxyPort = 787;
     rclcpp::Parameter connectTimeoutMs(CLIENT_CONFIG_PREFIX ".connect_timeout_ms", 511111);
-    node->declare_parameter(CLIENT_CONFIG_PREFIX ".connect_timeout_ms");
+    node->declare_parameter(CLIENT_CONFIG_PREFIX ".connect_timeout_ms", rclcpp::ParameterValue(""));
     config.connectTimeoutMs = 511111;
     rclcpp::Parameter verifySSL(CLIENT_CONFIG_PREFIX ".verify_SSL", true);
-    node->declare_parameter(CLIENT_CONFIG_PREFIX ".verify_SSL");
+    node->declare_parameter(CLIENT_CONFIG_PREFIX ".verify_SSL", rclcpp::ParameterValue(""));
     config.verifySSL = true;
     rclcpp::Parameter followRedirects(CLIENT_CONFIG_PREFIX ".follow_redirects", true);
-    node->declare_parameter(CLIENT_CONFIG_PREFIX ".follow_redirects");
-    config.followRedirects = true;
+    node->declare_parameter(CLIENT_CONFIG_PREFIX ".follow_redirects", rclcpp::ParameterValue(""));
+    config.followRedirects = Aws::Client::FollowRedirectsPolicy::ALWAYS;
     node->set_parameters({region, proxyPort, connectTimeoutMs, verifySSL, followRedirects});
 }
 
@@ -61,10 +61,10 @@ TEST(DefaultClientConfigurationProvider, getClientConfiguration)
     Aws::Client::ClientConfiguration generated_config = config_provider.GetClientConfiguration();
     prepared_config.userAgent = generated_config.userAgent; /* Set the user agent to w/e was generated. Will be tested separately */
 
-    prepared_config.followRedirects = false;
+    prepared_config.followRedirects = Aws::Client::FollowRedirectsPolicy::NEVER;
     ASSERT_NE(prepared_config, generated_config);
 
-    prepared_config.followRedirects = true;
+    prepared_config.followRedirects = Aws::Client::FollowRedirectsPolicy::ALWAYS;
     ASSERT_EQ(prepared_config, generated_config);
 }
 

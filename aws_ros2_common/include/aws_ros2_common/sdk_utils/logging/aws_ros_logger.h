@@ -38,6 +38,9 @@ public:
     AWSROSLogger & operator=(AWSROSLogger const &) = delete;  // Do not allow assignment operator
     ~AWSROSLogger() override;
 
+    void Flush() override {
+    }
+
 protected:
 
     void LogInfo(const char* tag, const std::string& message)  override;

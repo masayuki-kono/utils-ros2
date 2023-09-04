@@ -68,7 +68,7 @@ AwsError Ros2NodeParameterReader::ReadParam(const ParameterPath & param_path, st
     return ReadParamTemplate(param_path, node_, out);
 }
 
-AwsError Ros2NodeParameterReader::ReadParam(const ParameterPath & param_path, Aws::String &out) const {
+AwsError Ros2NodeParameterReader::ReadParamEx(const ParameterPath & param_path, Aws::String &out) const {
     std::string value;
     AwsError result = ReadParam(param_path, value);
     if (result == AWS_ERR_OK) {
