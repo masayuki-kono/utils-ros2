@@ -9,13 +9,6 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(aws_common REQUIRED)
 
-if(AWSSDK_FOUND)
-  set(SERVICE core)
-  AWSSDK_DETERMINE_LIBS_TO_LINK(SERVICE AWSSDK_LIBS)
-  link_directories("${AWSSDK_LIB_DIR}")
-endif()
-
-
 include_directories(include ${rclcpp_INCLUDE_DIRS} ${aws_common_INCLUDE_DIRS})
 add_library(${PROJECT_NAME} SHARED
     src/sdk_utils/ros2_node_parameter_reader.cpp
