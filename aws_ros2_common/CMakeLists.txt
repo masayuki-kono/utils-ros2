@@ -9,11 +9,14 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(aws_common REQUIRED)
 
-include_directories(include ${rclcpp_INCLUDE_DIRS} ${aws_common_INCLUDE_DIRS})
+include_directories(include
+    ${rclcpp_INCLUDE_DIRS}
+    ${aws_common_INCLUDE_DIRS})
 add_library(${PROJECT_NAME} SHARED
     src/sdk_utils/ros2_node_parameter_reader.cpp
     src/sdk_utils/logging/aws_ros_logger.cpp)
-target_include_directories(${PROJECT_NAME} PRIVATE ${AWSSDK_INCLUDE_DIR})
+
+target_include_directories(${PROJECT_NAME} PRIVATE)
 ament_target_dependencies(${PROJECT_NAME} rclcpp aws_common)
 
 install(TARGETS ${PROJECT_NAME}
