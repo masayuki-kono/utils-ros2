@@ -17,41 +17,42 @@
 #define AWS_COMMON_INCLUDE_SDK_UTILS_LOGGING_AWSROSLOGGER_H_
 
 #include <aws_common/sdk_utils/logging/aws_log_system.h>
+
 #include <rclcpp/rclcpp.hpp>
 #include <string>
 
-namespace Aws {
-namespace Utils {
-namespace Logging {
+namespace Aws
+{
+namespace Utils
+{
+namespace Logging
+{
 
 class AWSROSLogger : public AWSLogSystem
 {
-
 public:
-    /**
+  /**
      * @param log_level Defaults to Trace. This log level is an additional layer on top of ROS' log filtering.
      *  Typically, you would instantiate this with the lowest (most permissive) log level (i.e. Trace), and control the log level via ROS.
      * @param node
      */
-    explicit AWSROSLogger(Aws::Utils::Logging::LogLevel log_level, std::weak_ptr<rclcpp::Node> node);
-    AWSROSLogger(AWSROSLogger const &) = delete;              // Do not allow copy constructor
-    AWSROSLogger & operator=(AWSROSLogger const &) = delete;  // Do not allow assignment operator
-    ~AWSROSLogger() override;
+  explicit AWSROSLogger(Aws::Utils::Logging::LogLevel log_level, std::weak_ptr<rclcpp::Node> node);
+  AWSROSLogger(AWSROSLogger const &) = delete;              // Do not allow copy constructor
+  AWSROSLogger & operator=(AWSROSLogger const &) = delete;  // Do not allow assignment operator
+  ~AWSROSLogger() override;
 
-    void Flush() override {
-    }
+  void Flush() override {}
 
 protected:
-
-    void LogInfo(const char* tag, const std::string& message)  override;
-    void LogTrace(const char* tag, const std::string& message) override;
-    void LogDebug(const char* tag, const std::string& message) override;
-    void LogWarn(const char* tag, const std::string& message)  override;
-    void LogError(const char* tag, const std::string& message) override;
-    void LogFatal(const char* tag, const std::string& message) override;
+  void LogInfo(const char * tag, const std::string & message) override;
+  void LogTrace(const char * tag, const std::string & message) override;
+  void LogDebug(const char * tag, const std::string & message) override;
+  void LogWarn(const char * tag, const std::string & message) override;
+  void LogError(const char * tag, const std::string & message) override;
+  void LogFatal(const char * tag, const std::string & message) override;
 
 private:
-    std::weak_ptr<rclcpp::Node> node_;
+  std::weak_ptr<rclcpp::Node> node_;
 };
 
 }  // namespace Logging
